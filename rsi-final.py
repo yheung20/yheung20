@@ -28,6 +28,7 @@ while(True):
     for i in range(len(coinlist)):
         data = pyupbit.get_ohlcv(ticker=coinlist[i], interval="minute15")
         now_rsi = rsi(data, 11).iloc[-1]       
+        avg_buy_price = upbit.get_avg_buy_price(coinlist[i])
         avg_buy_price1 = upbit.get_avg_buy_price('KRW-ADA')
         avg_buy_price2 = upbit.get_avg_buy_price('KRW-XRP')
         avg_buy_price3 = upbit.get_avg_buy_price('KRW-BORA')
@@ -106,7 +107,7 @@ while(True):
                 total4 = amount4 * cur_price4
                 if total4 > 5000 :
                     print(upbit.sell_market_order('KRW-SXP', amount4))
- time.sleep(1)
+                time.sleep(1)
             #if (now_price + 15.0) <= avg_buy_price and avg_buy_price > 0 :
             #    amount = upbit.get_balance('KRW-ZRX') 
              #   cur_price = pyupbit.get_current_price('KRW-ZRX') 
@@ -156,8 +157,7 @@ while(True):
     def sell(coin):
         amount = upbit.get_balance(coin)
         cur_price = pyupbit.get_current_price(coin)
-        total = amount * cur_price
-        if total > 5000 : 
+        total = amount * cur_price 
         if total > 5000 :
             print(upbit.sell_market_order(coin, amount))
         return
